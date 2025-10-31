@@ -62,6 +62,8 @@ export async function updateProduct(productId: string, formData: FormData) {
   }
 
   // Run the update command
+
+  // @ts-ignore
   const { error } = await supabase
     .from('products')
     .update({ name: newName, url: newUrl })
