@@ -14,7 +14,19 @@ export async function GET() {
   const supabase = createClient(cookieStore)
 
   // 2. Get all products from the database
-  const { data: products, error } = await supabase.from('products').select('*')
+  const { data, error } = await supabase.from('products').select('*')
+
+  // Manually cast the type to fix the build error
+  const products = data as {
+    id: string
+    name: string | null
+    url: string | null
+    user_id: string | null
+    created_at: string | null
+    current_status: string | null
+  }[] | null
+  // --- END OF FIX ---
+
 
   if (!products || products.length === 0) {
     console.log('No products to check.')
