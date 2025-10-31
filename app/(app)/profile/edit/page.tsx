@@ -99,8 +99,7 @@ export default function ProfilePage() {
     // 3. Update the 'profiles' table
 
     // @ts-ignore
-    const { error: updateError } = await supabase
-      .from('profiles')
+    const { error: updateError } = await (supabase.from('profiles') as any) // <-- ADD (as any)
       .upsert({
         id: user.id, // This is the linking key
         first_name: firstName,
