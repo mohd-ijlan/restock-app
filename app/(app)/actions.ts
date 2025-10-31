@@ -64,7 +64,7 @@ export async function updateProduct(productId: string, formData: FormData) {
   // Run the update command
 
   // @ts-ignore
-  const { error } = await supabase
+  const { error } = await (supabase.from('products') as any)
     .from('products')
     .update({ name: newName, url: newUrl })
     .eq('id', productId) // Only update this specific product
