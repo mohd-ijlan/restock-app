@@ -3,7 +3,7 @@
 
 import { createClient } from '@/utils/supabase/server' // Import the SERVER client
 import { redirect } from 'next/navigation'
-import LogoutButton from './components/LogoutButton' // Import your new button
+//import LogoutButton from '@/app/components/LogoutButton' // Import your new button
 
 export default async function Home() {
   const supabase = createClient() // Get the server client
