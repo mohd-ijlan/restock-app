@@ -76,8 +76,7 @@ export async function GET() {
       // 8. Update the database if the status changed
       if (product.current_status !== newStatus) {
         console.log(`  Status changed to: ${newStatus}. Updating database...`)
-        await supabase
-          .from('products')
+        await (supabase.from('products') as any) // <-- ADD (as any)
           .update({ current_status: newStatus })
           .eq('id', product.id)
       } else {
