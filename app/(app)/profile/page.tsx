@@ -14,14 +14,21 @@ export default async function ProfilePage() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // --- THIS BLOCK IS NOW FIXED ---
   // Fetch the profile
-  const { data: profile } = await supabase
+  const { data, error } = await supabase
     .from('profiles')
     .select('first_name, last_name, avatar_url')
     .eq('id', user!.id)
     .single()
 
-    
+  // This line manually tells TypeScript the type, fixing the error
+  const profile = data as {
+    first_name: string | null
+    last_name: string | null
+    avatar_url: string | null
+  } | null
+  // --- END OF FIX ---
 
   return (
     // Main content container
