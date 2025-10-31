@@ -10,11 +10,14 @@ export default async function EditProduct({ params }: { params: { id: string } }
   const supabase = createClient(cookieStore)
 
   // 1. Fetch the specific product's data
-  const { data: product, error } = await supabase
+  const { data, error } = await supabase
     .from('products')
     .select('*')
     .eq('id', params.id)
     .single() // We only expect one result
+
+  // Manually cast the type to fix the build error
+  const product = data as { id: string; name: string | null; url: string | null } | null
 
   if (error || !product) {
     console.error('Error fetching product or product not found', error)
