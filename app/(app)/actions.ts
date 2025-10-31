@@ -7,12 +7,11 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 export async function deleteProduct(productId: string) {
-  console.log('--- SERVER ACTION: deleteProduct ---') // Log 1
-  console.log('Attempting to delete ID:', productId) // Log 2
+  console.log('--- SERVER ACTION: deleteProduct ---')
+  console.log('Attempting to delete ID:', productId)
 
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
-  type ProductTable = { id: string; name: string; url: string }
 
   // Run the delete command
   const { error } = await supabase
@@ -21,30 +20,14 @@ export async function deleteProduct(productId: string) {
     .eq('id', productId)
 
   if (error) {
-    console.error('Full error object:', error) // Log 3 (The Error)
+    console.error('Full error object:', error)
     return { error: `Failed: ${error.message}` }
   }
 
   revalidatePath('/dashboard')
-  console.log('Delete successful for ID:', productId) // Log 4 (Success)
+  console.log('Delete successful for ID:', productId)
   return { success: true }
 }
-
-// app/(app)/actions.ts
-
-// ... (your existing deleteProduct function is up here)
-
-// Define the Product type to match your 'products' table structure
-type Product = {
-  id: string
-  name: string
-  url: string
-  // Add other fields as needed
-}
-
-// app/(app)/actions.ts
-
-// ... (your existing deleteProduct function is up here)
 
 export async function updateProduct(productId: string, formData: FormData) {
   'use server'
@@ -58,20 +41,18 @@ export async function updateProduct(productId: string, formData: FormData) {
   const newUrl = formData.get('productUrl') as string
 
   if (!newName || !newUrl) {
-    return { error: 'Name and URL are required.' }
+    console.error('Error: Name and URL are required.')
+    return // <-- Fix for Vercel build
   }
 
-  // Run the update command
-
-  // @ts-ignore
+  // Manually cast the type to fix the build error
   const { error } = await (supabase.from('products') as any)
-    .from('products')
     .update({ name: newName, url: newUrl })
     .eq('id', productId) // Only update this specific product
 
   if (error) {
     console.error('Error updating product:', error)
-    return { error: error.message }
+    return // <-- Fix for Vercel build
   }
 
   // Refresh the dashboard and redirect

@@ -25,7 +25,6 @@ export default async function Home() {
       <p className="mb-4">You are logged in as: {user.email}</p>
 
       {/* Use the client component for the button */}
-      <LogoutButton />
     </main>
   )
 }
