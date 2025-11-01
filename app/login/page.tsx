@@ -4,6 +4,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client' // Import your client
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -25,14 +27,27 @@ export default function Login() {
       setError(error.message) // Show error to the user
     } else {
       // Login successful!
-      router.push('/dashboard') // Redirect to the homepage
+      router.push('/dashboard') // Redirect to the dashboard
       router.refresh() // Refresh the page to update server components
     }
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-xs p-6 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-md">
+        <div className="flex justify-center mb-6">
+          <Link href="/" className="flex items-center gap-1">
+            <Image
+              src="/icon.png" // Assumes your logo is icon.png
+              alt="Restock Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+            <span className="text-xl font-bold text-black">Restock</span>
+          </Link>
+        </div>
+
         <h1 className="text-2xl font-bold text-center mb-4 text-black">
           Login to Restock
         </h1>
@@ -86,6 +101,13 @@ export default function Login() {
             </button>
           </div>
         </form>
+
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Don't have an account?{' '}
+          <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+            Sign Up
+          </Link>
+        </p>
       </div>
     </div>
   )
