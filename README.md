@@ -106,3 +106,5 @@ RESEND_API_KEY=YOUR_RESEND_API_KEY
 npm run dev
 ```
 Open http://localhost:3000 in your browser.
+
+
