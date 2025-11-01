@@ -114,7 +114,7 @@ export default async function DashboardPage() {
           </div>
         ) : (
           // Populated State - We render the new Client Component
-          <ProductList products={products} />
+          <ProductList products={products ?? []} />
         )}
       </div>
     </div>
