@@ -12,6 +12,14 @@ import {
 // Import our client component
 import ProductList from '@/app/components/ProductList'
 
+
+type Product = {
+  id: string
+  name: string | null
+  url: string | null
+  current_status: string | null
+}
+
 export default async function DashboardPage() {
   const cookieStore = cookies()
   const supabase = createClient(cookieStore)
