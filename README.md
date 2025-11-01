@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Restock 🛍️
 
-## Getting Started
+[![Deployed with Vercel](https://vercel.com/button)](https://restock-app.vercel.app)
 
-First, run the development server:
+A full-stack product availability tracker built with Next.js, Supabase, and Vercel. Restock allows users to monitor their favorite products from e-commerce sites and receive email notifications as soon as the items come back in stock.
 
+**Live Demo: [https://restock-app.vercel.app](https://restock-app.vercel.app)**
+
+<br />
+
+<details>
+  <summary><b>Click to view Application Screenshots</b></summary>
+  
+  <p align="center">
+    <em>Drag and drop your screenshots here.</em>
+  </p>
+  
+  | Landing Page | Dashboard |
+  | <img width="1901" height="877" alt="image" src="https://github.com/user-attachments/assets/57119488-c4d3-466e-a2b0-90a4171ab263" />
+ | <img width="1901" height="876" alt="image" src="https://github.com/user-attachments/assets/c9cf5188-70f1-4a26-8e10-b2a9c087a3f7" />
+ |
+  | <img src="" alt="Landing Page" width="400"> | <img src="" alt="Dashboard" width="400"> |
+  
+  | Edit Profile | Login Page |
+  | <img width="1919" height="874" alt="image" src="https://github.com/user-attachments/assets/58403fb6-6a4a-4d2e-a49f-ab0fa205dd21" />
+ | <img width="1917" height="871" alt="image" src="https://github.com/user-attachments/assets/b98f05f7-6684-4629-b445-a76df434ce84" />
+ |
+  | <img src="" alt="Edit Profile" width="400"> | <img src="" alt="Login" width="400"> |
+
+</details>
+
+<br />
+
+## ✨ Key Features
+
+A checklist of all functionalities implemented in the application.
+
+### 🔐 Authentication & User Management
+* **Email & Password:** Full user sign-up, sign-in, and sign-out flow.
+* **Google OAuth:** One-click sign-in and sign-up with a Google account.
+* **Email Verification:** New user sign-ups require email confirmation (a feature we enabled in Supabase).
+* **Profile Management:** Users can update their first name, last name, and upload a custom profile picture.
+* **Secure Storage:** Profile avatars are uploaded to Supabase Storage with RLS policies.
+* **Protected Routes:** All app-facing pages (`/dashboard`, `/profile`, etc.) are protected by a server-side check in the root layout.
+
+### 🛍️ Product & Dashboard
+* **Full CRUD:** Complete **C**reate, **R**ead, **U**pdate, and **D**elete functionality for tracked products.
+* **Dynamic Dashboard:** A clean UI displaying stat cards and a card-based grid of all tracked products.
+* **Interactive UI:** Client-side components for user interactions, such as a confirmation modal for deleting a product.
+
+### ⚙️ Automation & Scraping
+* **Web Scraper:** A backend API route (`/api/check-stock`) built with Axios and Cheerio to parse the HTML of live product pages.
+* **Email Notifications:** Automatically sends an email via **Resend** when the scraper finds a product's status has changed to "In Stock".
+* **Daily Automation:** A **Vercel Cron Job** is configured to trigger the scraper API once every 24 hours.
+
+## 🚀 How It Works: The Automation Flow
+
+1.  **Track:** A user logs in and adds a product URL to their dashboard. This saves the product to the Supabase `products` table, linked to their `user_id`.
+2.  **Scrape:** The Vercel Cron Job triggers the `/api/check-stock` route once daily. This serverless function fetches *all* products from the database.
+3.  **Check:** For each product, the scraper uses Axios to download the page HTML and Cheerio to parse it, finding the stock status text (e.g., "Currently unavailable").
+4.  **Update:** The scraper updates the `current_status` in the Supabase database.
+5.  **Notify:** If a product's status changes to "In Stock", the scraper securely fetches the user's email (using a `SUPABASE_SERVICE_ROLE_KEY`) and uses **Resend** to send them a "Back in Stock" notification.
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | [**Next.js 14**](https://nextjs.org/) (App Router) |
+| **Language** | [**TypeScript**](https://www.typescriptlang.org/) |
+| **Backend** | [**Next.js API Routes**](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) & [**Server Actions**](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) |
+| **Database** | [**Supabase**](https://supabase.com/) (PostgreSQL) |
+| **Auth** | [**Supabase Auth**](https://supabase.com/auth) (with RLS) |
+| **File Storage** | [**Supabase Storage**](https://supabase.com/storage) |
+| **Deployment** | [**Vercel**](https://vercel.com/) |
+| **Styling** | [**Tailwind CSS**](https://tailwindcss.com/) |
+| **Icons** | [**Heroicons**](https://heroicons.com/) |
+| **Scraping** | [**Axios**](https://axios-http.com/) & [**Cheerio**](https://cheerio.js.org/) |
+| **Email** | [**Resend**](https://resend.com/) |
+
+## 📦 Local Development Setup
+
+### 1. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone [https://github.com/mohd-ijlan/restock-app.git](https://github.com/mohd-ijlan/restock-app.git)
+cd restock-app
