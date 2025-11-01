@@ -3,6 +3,7 @@ import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 // An array for your feature cards
 const features = [
@@ -47,8 +48,15 @@ export default async function LandingPage() {
       {/* 1. Navigation Bar */}
       <nav className="w-full h-16 border-b border-gray-200">
         <div className="max-w-6xl mx-auto h-full flex justify-between items-center px-6">
-          <Link href="/" className="text-xl font-bold">
-            Restock
+          <Link href="/" className="flex items-center gap-1">
+            <Image
+              src="/icon.png" // Assumes your logo is icon.png
+              alt="Restock Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+            <span className="text-xl font-bold">Restock</span>
           </Link>
           <Link
             href="/login"

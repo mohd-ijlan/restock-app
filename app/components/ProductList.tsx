@@ -6,44 +6,36 @@ import Link from 'next/link'
 import { deleteProduct } from '@/app/(app)/actions' // Import our new Server Action
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-// Define Product type for the component props
+// Define the type for a single product
 type Product = {
   id: string
-  name: string
-  url: string
-  current_status: string
+  name: string | null
+  url: string | null
+  current_status: string | null
 }
 
-// This component takes the 'products' array as a "prop"
+// THIS LINE IS NOW FIXED
 export default function ProductList({ products }: { products: Product[] }) {
   // --- State Management ---
-  // 1. For the pop-up modal
   const [isModalOpen, setIsModalOpen] = useState(false)
-  // 2. To know which product to delete
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
-  // 3. For loading/disabled state on the delete button
   const [isPending, startTransition] = useTransition()
 
   // --- Modal Functions ---
-  // This runs when the user clicks the "Delete" link
   const openDeleteModal = (id: string) => {
     setSelectedProductId(id)
     setIsModalOpen(true)
   }
 
-  // This runs when the user clicks "Cancel" or the 'X'
   const closeDeleteModal = () => {
     setIsModalOpen(false)
     setSelectedProductId(null)
   }
 
   // --- Delete Action ---
-  // This runs when the user clicks the final "Confirm Delete" button
   const handleConfirmDelete = () => {
     if (!selectedProductId) return
 
-    // 'startTransition' gives us the 'isPending' state
-    // so we can disable the button while it works
     startTransition(async () => {
       const result = await deleteProduct(selectedProductId)
       if (result?.error) {
@@ -103,12 +95,11 @@ export default function ProductList({ products }: { products: Product[] }) {
                 {/* Bottom section: Actions (NOW FUNCTIONAL) */}
                 <div className="flex justify-end gap-4 p-4 border-t border-gray-100">
                   <Link
-                    href={`/edit-product/${product.id}`} // <-- THIS IS THE NEW LINE
+                    href={`/edit-product/${product.id}`}
                     className="text-sm font-medium text-blue-600 hover:text-blue-800"
                   >
                     Edit
                   </Link>
-                  {/* The Delete link is now a button that opens the modal */}
                   <button
                     onClick={() => openDeleteModal(product.id)}
                     className="text-sm font-medium text-red-600 hover:text-red-800"
