@@ -83,3 +83,26 @@ A checklist of all functionalities implemented in the application.
 ```bash
 git clone [https://github.com/mohd-ijlan/restock-app.git](https://github.com/mohd-ijlan/restock-app.git)
 cd restock-app
+```
+
+### 2. Install Dependencies
+```bash
+npm install
+```
+### 3. Set Up Environment Variables
+Create a file named .env.local in the root of the project and add the following keys.
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
+
+# Resend (for emails)
+RESEND_API_KEY=YOUR_RESEND_API_KEY
+```
+4. Run the Development Server
+```bash
+
+npm run dev
+```
+Open http://localhost:3000 in your browser.
