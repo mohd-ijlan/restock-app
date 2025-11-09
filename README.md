@@ -1,4 +1,4 @@
-# Restock 🛍️
+# Restock
 
 [![Deployed with Vercel](https://vercel.com/button)](https://restock-app.vercel.app)
 
@@ -31,11 +31,11 @@ A full-stack product availability tracker built with Next.js, Supabase, and Verc
 
 <br />
 
-## ✨ Key Features
+##  Key Features
 
 A checklist of all functionalities implemented in the application.
 
-### 🔐 Authentication & User Management
+### Authentication & User Management
 * **Email & Password:** Full user sign-up, sign-in, and sign-out flow.
 * **Google OAuth:** One-click sign-in and sign-up with a Google account.
 * **Email Verification:** New user sign-ups require email confirmation (a feature we enabled in Supabase).
@@ -43,17 +43,17 @@ A checklist of all functionalities implemented in the application.
 * **Secure Storage:** Profile avatars are uploaded to Supabase Storage with RLS policies.
 * **Protected Routes:** All app-facing pages (`/dashboard`, `/profile`, etc.) are protected by a server-side check in the root layout.
 
-### 🛍️ Product & Dashboard
+### Product & Dashboard
 * **Full CRUD:** Complete **C**reate, **R**ead, **U**pdate, and **D**elete functionality for tracked products.
 * **Dynamic Dashboard:** A clean UI displaying stat cards and a card-based grid of all tracked products.
 * **Interactive UI:** Client-side components for user interactions, such as a confirmation modal for deleting a product.
 
-### ⚙️ Automation & Scraping
+### Automation & Scraping
 * **Web Scraper:** A backend API route (`/api/check-stock`) built with Axios and Cheerio to parse the HTML of live product pages.
 * **Email Notifications:** Automatically sends an email via **Resend** when the scraper finds a product's status has changed to "In Stock".
 * **Daily Automation:** A **Vercel Cron Job** is configured to trigger the scraper API once every 24 hours.
 
-## 🚀 How It Works: The Automation Flow
+##  How It Works: The Automation Flow
 
 1.  **Track:** A user logs in and adds a product URL to their dashboard. This saves the product to the Supabase `products` table, linked to their `user_id`.
 2.  **Scrape:** The Vercel Cron Job triggers the `/api/check-stock` route once daily. This serverless function fetches *all* products from the database.
@@ -61,7 +61,7 @@ A checklist of all functionalities implemented in the application.
 4.  **Update:** The scraper updates the `current_status` in the Supabase database.
 5.  **Notify:** If a product's status changes to "In Stock", the scraper securely fetches the user's email (using a `SUPABASE_SERVICE_ROLE_KEY`) and uses **Resend** to send them a "Back in Stock" notification.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology |
 | :--- | :--- |
@@ -77,7 +77,7 @@ A checklist of all functionalities implemented in the application.
 | **Scraping** | [**Axios**](https://axios-http.com/) & [**Cheerio**](https://cheerio.js.org/) |
 | **Email** | [**Resend**](https://resend.com/) |
 
-## 📦 Local Development Setup
+## Local Development Setup
 
 ### 1. Clone the Repository
 ```bash
@@ -105,6 +105,4 @@ RESEND_API_KEY=YOUR_RESEND_API_KEY
 
 npm run dev
 ```
-Open http://localhost:3000 in your browser.
-
 
